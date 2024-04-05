@@ -1,11 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { nextPageDate, getPokemon, } from '../../service/pokeapi';
+import { pageList, getPokemon, } from '@services/pokeapi';
 import ListItem from '../ListItem';
 import Modal from '../Modal'
+import { Pokemon } from 'types/poke-api';
+import PaginationControl from './PaginationControl';
+import './style.css';
 
-const ListWithPagination = () => {
+interface ListWithPaginationProps {
+  pageData: Pokemon[];
+  totalResults: number;
+  onChangePage: (pageNumber: number) => void;
+  onClickItem: (pokemon: Pokemon) => void;
+  onDoubleClick: (pokemon: Pokemon) => void; 
+}
+
+const ListWithPagination = ({
+  pageData,
+  totalResults,
+  onChangePage,
+  onClickItem,
+  onDoubleClick,
+} : ListWithPaginationProps) => {
     const [page, setPage] = useState(1);
-    const [list, setList] = useState([]);
+    const [list, setList] = useState<Pokemon[]>([]);
     const [loading, setLoading] = useState(true);
     const [modal, setModal] = useState(null);
     const [pokemon, setPokemon] = useState(false);
@@ -24,9 +41,9 @@ const ListWithPagination = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-          const list = await nextPageDate(page);
+          const list = await pageList(page);
     
-          setList(list);
+          setList(list.results);
           setLoading(false);
         }
         fetchData();
@@ -45,24 +62,22 @@ const ListWithPagination = () => {
              }
         </Modal>
 
-        <ul>
+        <PaginationControl
+          totalResults={totalResults}
+          onChangePage={onChangePage}
+        />
+
+        <div className='listcontent-lp'>
         {
-          list.map((item) => (
+          pageData.map((item) => (
             <ListItem
-            pokemon={item} 
-            onClick={(selectedPokemon) => {
-                console.log(selectedPokemon);
-                setPokemon(selectedPokemon);
-            }}
+            key={item.id}
+            pokemon={item}
+            onClick={onClickItem}
+            onDoubleClick={onDoubleClick}
             />
           ))
         }
-      </ul>
-
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <button onClick={() => setPage(page - 1)} disabled={page === 1}>{"<"}</button>
-        <p style={{ marginLeft: 6, marginRight: 6 }}>{page}</p>
-        <button onClick={() => setPage(page + 1)} disabled={page === 8}>{">"}</button>
       </div>
     </>
     )

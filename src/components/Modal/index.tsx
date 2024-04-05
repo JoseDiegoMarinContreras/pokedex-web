@@ -1,20 +1,42 @@
-import React, { useState } from 'react';
-import { createPortal } from 'react-dom';
+import React, { ReactNode, useEffect, } from 'react';
+import './style.css';
 
-const Modal = ({ iseOpen, onClose, children }) => {
-    if(!iseOpen)
+interface ModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    children?: ReactNode;
+}
+
+const Modal = ({ isOpen, onClose, children }: ModalProps) => {
+    useEffect(() => {
+        if(isOpen){
+            document.body.style.overflow = 'hidden';
+        }
+        if(!isOpen){
+            document.body.style.overflow = 'auto';
+        }
+
+        return () => {
+            document.body.style.overflow = 'hidden';
+        }
+    }, [isOpen]);
+
+    if(!isOpen)
         return null;
 
-    return createPortal(
-        <dialog open arial-modal={true}>
-            <h2 >Modal Dialog</h2>
-            <button onClick={onClose}>
+    return (
+        <div className='maincontainer-modal' onClick={() => onClose && onClose()}>
+            <dialog open onClick={evt => {
+                evt.preventDefault();
+                evt.stopPropagation();
+            }}>
+            <button style={{ float: 'right' }} onClick={onClose}>
                 Close
             </button>
 
             <div>{children}</div>
-        </dialog>,
-        document.body
+        </dialog>
+        </div>
     )
 }
 

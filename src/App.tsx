@@ -1,12 +1,18 @@
-import ListWithPagination from './components/ListWithPagination';
-
+import { Suspense } from 'react';
+import { Await, useLoaderData, } from 'react-router-dom';
+import LoadingPage from '@components/LoadingPage';
+import HomePage from '@components/HomePage';
 
 function App() {
+  const { pokemonListPromise } = useLoaderData();
 
   return (
-    <>
-    <ListWithPagination />
-    </>
+    <Suspense fallback={<LoadingPage />}>
+      <Await
+        resolve={pokemonListPromise}
+        children={(pokemonListResolved) => <HomePage data={pokemonListResolved} />}
+      />
+    </Suspense>
   )
 }
 

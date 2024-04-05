@@ -1,20 +1,38 @@
-const nextPageDate = async (pageNumber: number) => {
-    const offset = 20 * pageNumber;
-    const limit = pageNumber !== 8 ? 20 : 11;
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=${limit}`);
-    const data = await response.json();
+import { PokeApiResponse, Pokemon } from '../types/poke-api';
+import { withJson } from '@utils';
 
-    return data.results;
+const getPokemonsWithDetails = async (pageNumber: number): Promise<Pokemon[]> => {
+    const list = await pageList(pageNumber);
+    const results = await Promise.all(
+        list.results.map(
+            (item) => withJson<Pokemon>(fetch(item.url))
+        )
+    ) as Pokemon[];
+
+    const data = await new Promise((resolve, reject) => {
+        setTimeout(resolve, 0, results);
+    });
+    
+    return data;
 }
 
-const getPokemon = async (name: string) => {
+const pageList = async (pageNumber: number): Promise<PokeApiResponse> => {
+    const offset = 20 * (pageNumber - 1);
+    const limit = pageNumber !== 8 ? 20 : 11;
+    const response = await withJson<PokeApiResponse>(fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=${limit}`));
+    
+    return response;
+}
+
+const getPokemon = async (name: string): Promise<Pokemon> => {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-    const data = await response.json();
+    const data = await withJson<Pokemon>(response.json());
     
     return data;
 }
 
 export {
-    nextPageDate,
+    pageList,
     getPokemon,
+    getPokemonsWithDetails,
 };

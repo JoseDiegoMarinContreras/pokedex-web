@@ -1,0 +1,28 @@
+.maincontainer-pc-lp {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.active-pc-lp {
+    font-weight: bolder;
+    color: yellow;
+}
+
+.page-number-pc-lp {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+}
+
+.page-number-item-pc-lp {
+    margin-left: 6px;
+    margin-right: 6px;
+    padding: 6px;
+}
+
+.page-number-item-pc-lp:hover {
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}

@@ -1,0 +1,39 @@
+.maincontainer-li {
+   transition: transform 0.3s ease-out;
+}
+
+.maincontainer-li:hover {
+    transform: translate(0, -10px);
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+ }
+
+.pokemon-image-li {
+    width: 100%;
+    height: auto;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+}
+
+.pokemon-order-li {
+    color: #939393;
+    font-size: small;
+    font-weight: bold;
+}
+
+.pokemon-name-li {
+    font-size: large;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.pokemon-tag-types-li {
+    display: flex;
+}
+
+.pokemon-tag-type-li {
+    color: white;
+    font-size: smaller;
+    font-weight: bold;
+    padding: 4px 20px 4px 20px;
+}
