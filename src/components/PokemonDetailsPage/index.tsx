@@ -9,12 +9,20 @@ import './style.css';
 import StatBasePoints from './StatBasePoints';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetAppState } from '@storage/app-state';
+import { addNewFavPokemon, removeFavPokemon } from '@storage/pokemon-fav';
 
 const PokemonDetailsPage = () => {
     const { state } = useLocation();
     const { id } = useParams();
     const [pokemon, setPokemon] = useState<Pokemon>(state);
+
     const appState = useSelector(state => state.appState);
+
+    const isAFavPokemon = useSelector(state => {
+        const favPokemons = state.favouritePokemons.favPokemons as Pokemon[];
+        return favPokemons.some(item => item.id === Number(id));
+    });
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -36,11 +44,20 @@ const PokemonDetailsPage = () => {
             <button className='control-return-pdp'
               onClick={() => {
                 navigate('/', { state: appState });
-                dispatch(resetAppState());
+                //dispatch(resetAppState());
               }}
             >{"<<"}</button>
 
-            <button className='control-add-fav-pdp'>{"Add to Favourite +"}</button>
+            <button className='control-add-fav-pdp'
+              onClick={() => {
+                if(isAFavPokemon){
+                    dispatch(removeFavPokemon({ id: pokemon.id }));
+                }
+                if(!isAFavPokemon){
+                    dispatch(addNewFavPokemon({ favPokemon: pokemon }));
+                }
+              }}
+            >{isAFavPokemon ? "Remove from Favourites -" : "Add to Favourites +"}</button>
         </div>
         
         <div className='stats-pdp'>

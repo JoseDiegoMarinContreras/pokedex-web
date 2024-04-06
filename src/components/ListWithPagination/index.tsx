@@ -6,6 +6,8 @@ import { Pokemon } from 'types/poke-api';
 import PaginationControl from './PaginationControl';
 import './style.css';
 import LoadingPage from '@components/LoadingPage';
+import ToggleButton from '@components/ToggleButton';
+import { useNavigate } from 'react-router-dom';
 
 interface ListWithPaginationProps {
   pageData: Pokemon[];
@@ -22,12 +24,19 @@ const ListWithPagination = ({
   onClickItem,
   onDoubleClick,
 } : ListWithPaginationProps) => {
+  const navigate = useNavigate();
 
     return(
     <>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
         <PaginationControl
           onChangePage={onChangePage}
         />
+
+        <button style={{ marginLeft: '12px' }} onClick={() => navigate('/favourite-pokemons')}>
+          {'Check out Your Favourite Pokemons <3!'}
+        </button>
+      </div>
         {
           loading && <LoadingPage />
         }

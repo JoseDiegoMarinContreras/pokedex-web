@@ -7,6 +7,7 @@ import App from '../App';
 import { initialListLoader } from './loaders';
 import Template from '@components/Template';
 import PokemonDetailsPage from '@components/PokemonDetailsPage';
+import FavouritePage from '@components/FavouritePage';
 
 const AppRouter = createBrowserRouter(
     createRoutesFromElements(
@@ -19,6 +20,10 @@ const AppRouter = createBrowserRouter(
 
             <Route path='/pokemon/:id'
               element={<PokemonDetailsPage />}
+            />
+
+            <Route path='/favourite-pokemons'
+              element={<FavouritePage />}
             />
         </Route>
         </>
