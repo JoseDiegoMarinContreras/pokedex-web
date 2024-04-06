@@ -1,6 +1,12 @@
 import { PokeApiResponse, Pokemon } from '../types/poke-api';
 import { withJson } from '@utils';
 
+const getPokemonById = async (id: number): Promise<Pokemon> => {
+    const data = withJson(fetch(`https://pokeapi.co/api/v2/pokemon/${id}`));
+
+    return data;
+}
+
 const getPokemonsWithDetails = async (pageNumber: number): Promise<Pokemon[]> => {
     const list = await pageList(pageNumber);
     const results = await Promise.all(
@@ -10,7 +16,7 @@ const getPokemonsWithDetails = async (pageNumber: number): Promise<Pokemon[]> =>
     ) as Pokemon[];
 
     const data = await new Promise((resolve, reject) => {
-        setTimeout(resolve, 0, results);
+        setTimeout(resolve, 2000, results);
     });
     
     return data;
@@ -35,4 +41,5 @@ export {
     pageList,
     getPokemon,
     getPokemonsWithDetails,
+    getPokemonById,
 };

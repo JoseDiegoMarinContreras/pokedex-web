@@ -1,0 +1,6 @@
+.maincontainer-sbp-pdp-p {
+    display: flex;
+    flex-direction: row;
+    height: 80%;
+    padding-bottom: 5px;
+}

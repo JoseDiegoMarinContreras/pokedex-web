@@ -6,10 +6,10 @@ interface ContainerProps {
     onClick?: () => void;
     onDoubleClick?: () => void;
     className: string;
-
+    key: unknown;
 }
 
-const Container = ({ children, onDoubleClick, onClick, className, } : ContainerProps) => {
+const Container = ({ children, onDoubleClick, onClick, className, key, } : ContainerProps) => {
     const [click, setClicks] = useState(0);
 
     useEffect(() => {
@@ -29,7 +29,7 @@ const Container = ({ children, onDoubleClick, onClick, className, } : ContainerP
     }, [click, onClick, onDoubleClick]);
 
     return(
-        <div onClick={() => setClicks(state => state + 1)} className={className}>
+        <div key={key} onClick={() => setClicks(state => state + 1)} className={className}>
             { children }
         </div>
     );

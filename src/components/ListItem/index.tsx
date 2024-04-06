@@ -1,4 +1,4 @@
-import { formatPokemonOrder, formatPokemonName, getTagColorByTypeName, } from '@utils'
+import { formatPokemonOrder, formatPokemonName, getTagColorByTypeName, } from '@utils';
 import { Pokemon } from 'types/poke-api';
 import './style.css';
 import { MouseEvent } from 'react';
@@ -8,10 +8,11 @@ interface ListItemProps {
     pokemon: Pokemon;
     onClick?: (pokemon: Pokemon) => void;
     onDoubleClick?: (pokemon: Pokemon) => void;
-    key: any;
+    key?: any;
+    backgroundImage: string;
 }
 
-const ListItem = ({ pokemon, onClick, onDoubleClick, key } : ListItemProps) => {
+const ListItem = ({ pokemon, onClick, onDoubleClick, key, backgroundImage = "#f2f2f2" } : ListItemProps) => {
     return (
         <Container className='maincontainer-li'
           key={key}
@@ -19,6 +20,7 @@ const ListItem = ({ pokemon, onClick, onDoubleClick, key } : ListItemProps) => {
           onDoubleClick={() => onDoubleClick && onDoubleClick(pokemon)}
         >
             <img className='pokemon-image-li'
+              style={{ backgroundColor: backgroundImage }}
               alt={formatPokemonName(pokemon.name)}
               src={pokemon.sprites.front_default}
             />

@@ -4,6 +4,9 @@ import { Pokemon } from "types/poke-api";
 import { getPokemonsWithDetails, } from '@services/pokeapi';
 import Modal from '@components/Modal';
 import './style.css';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setAppState } from '@storage/app-state';
 
 interface HomePageProps {
     data: Pokemon[]
@@ -12,13 +15,22 @@ interface HomePageProps {
 const HomePage = ({ data } : HomePageProps) => {
     const [page, setPage] = useState<null | number>(null);
     const [pageData, setPageData] = useState(data);
+    const [loading, setLoading] = useState(false);
     const [pokemon, setPokemon] = useState<Pokemon | null>(null);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        dispatch(setAppState({ pageData }));
+    }, [pageData]);
 
     useEffect(() => {
         (async() => {
             if(page !== null){
+                setLoading(true);
                 const data = await getPokemonsWithDetails(page);
                 setPageData(data);
+                setLoading(false);
             }
         })()
     }, [page]);
@@ -37,16 +49,12 @@ const HomePage = ({ data } : HomePageProps) => {
                 )
             }
         </Modal>
-
-        <div className="maincontainer-home">
-            <section className="section-home">
-                <ListWithPagination pageData={pageData}
-                  onChangePage={(pageNumber) => setPage(pageNumber)}
-                  onClickItem={(pokemon) => setPokemon(pokemon)}
-                  onDoubleClick={(pokemon) => console.log("Double click")}
-                />
-            </section>
-        </div>
+        <ListWithPagination pageData={pageData}
+          loading={loading}
+          onChangePage={(pageNumber) => setPage(pageNumber)}
+          onClickItem={(pokemon) => setPokemon(pokemon)}
+          onDoubleClick={(pokemon) => navigate(`/pokemon/${pokemon.id}`,{ state: pokemon })}
+        />
         </>
     );
 }

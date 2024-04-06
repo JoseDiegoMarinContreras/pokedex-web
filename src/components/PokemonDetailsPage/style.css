@@ -1,0 +1,51 @@
+.maincontainer-pdp {
+    display: flex;
+    flex-direction: column;
+}
+
+.controllers-pdp {
+    margin-left: 12px;
+}
+
+.control-return-pdp {
+    margin-right: 14px;
+}
+
+.stats-overview-pdp {
+    padding-left: 14px;
+    padding-top: 10px;
+    padding-bottom: 0;
+    font-size: medium;
+    display: flex;
+    flex-direction: row;
+    color: #929292;
+}
+
+.stat-overview-pdp {
+    margin-right: 12px;
+    padding-top: 0;
+    margin-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.stats-card-pdp {
+    width: 30%;
+}
+
+.stat-base-points-pdp {
+    background-color: #A4A4A4;
+    color: black;
+    font-size: large;
+    height: 100%;
+    margin-left: 12px;
+    margin-right: 12px;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.stats-pdp {
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+}
